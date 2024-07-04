@@ -18,6 +18,6 @@ jobs:
 
     - name: Build and start devcontainer
       run: devcontainer up --id-label ${id_label} --workspace-folder .
-    
+
     - name: Smoke test
       run: devcontainer exec --id-label ${id_label} --workspace-folder . /bin/bash -c "source ./tests/test-sdk-build.sh"
