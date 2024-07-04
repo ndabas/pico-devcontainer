@@ -1,0 +1,6 @@
+{
+	"name": "Pico SDK",
+	"build": {
+        "dockerfile": "Dockerfile"
+    }
+}
