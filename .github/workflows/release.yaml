@@ -40,6 +40,7 @@ jobs:
       uses: devcontainers/ci@v0.3
       with:
         imageName: ghcr.io/${{ github.repository }}
+        cacheFrom: ghcr.io/${{ github.repository }}
         imageTag: ${{ env.DOCKER_METADATA_OUTPUT_TAGS }}
         push: always
         runCmd: /bin/bash -c "source ./tests/test-sdk-build.sh"
