@@ -16,10 +16,9 @@ RUN set -eux; \
 
 RUN pip install pycryptodome
 
-ARG PICO_SDK_VERSION=1.5.1
+ARG PICO_SDK_VERSION=2.0.0
 ENV PICO_SDK_VERSION=${PICO_SDK_VERSION}
 ENV PICO_SDK_PATH=/opt/pico-sdk
 RUN set -eux; \
     git clone -b "${PICO_SDK_VERSION}" -c advice.detachedHead=false "https://github.com/raspberrypi/pico-sdk.git" "${PICO_SDK_PATH}"; \
-    git -C "${PICO_SDK_PATH}" submodule update --init --depth=1; \
-    git -C "${PICO_SDK_PATH}/lib/tinyusb" submodule update --init --depth=1 hw/mcu/raspberry_pi
+    git -C "${PICO_SDK_PATH}" submodule update --init --depth=1
