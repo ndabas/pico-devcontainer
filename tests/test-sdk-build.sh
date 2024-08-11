@@ -30,7 +30,8 @@ fi
 
 cd "$PICO_EXAMPLES_PATH"
 
-for board in pico pico2
+# pico2 build disabled: https://github.com/raspberrypi/pico-examples/issues/513
+for board in pico
 do
     mkdir -p build_$board
     pushd build_$board
