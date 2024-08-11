@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-COMMON_BUILD_PARAMS=(-G Ninja -DCMAKE_BUILD_TYPE=Debug -DPICO_BOARD=pico_w --fresh)
+COMMON_BUILD_PARAMS=(-G Ninja -DCMAKE_BUILD_TYPE=Debug --fresh)
 
 mkdir -p /tmp/pico-sdk-build
 cd /tmp/pico-sdk-build
@@ -20,13 +20,6 @@ for REPO in examples extras; do
     fi
 done
 
-cd "$PICO_EXAMPLES_PATH"
-mkdir -p build
-cd build
-
-cmake .. "${COMMON_BUILD_PARAMS[@]}"
-cmake --build .
-
 FREERTOS_KERNEL_PATH=/tmp/FreeRTOS-Kernel
 
 if [ ! -d "$FREERTOS_KERNEL_PATH" ]; then
@@ -35,12 +28,25 @@ if [ ! -d "$FREERTOS_KERNEL_PATH" ]; then
         "$FREERTOS_KERNEL_PATH"
 fi
 
+cd "$PICO_EXAMPLES_PATH"
+
+for board in pico pico2
+do
+    mkdir -p build_$board
+    pushd build_$board
+    cmake .. -DPICO_BOARD=$board "${COMMON_BUILD_PARAMS[@]}"
+    cmake --build .
+    popd
+done
+
+mkdir -p build_pico_w
+pushd build_pico_w
 cmake .. \
+    -DPICO_BOARD=pico_w \
     -DWIFI_SSID=ssid \
     -DWIFI_PASSWORD=pass \
     "-DFREERTOS_KERNEL_PATH=${FREERTOS_KERNEL_PATH}" \
     -DTEST_TCP_SERVER_IP=10.10.10.10 \
     "${COMMON_BUILD_PARAMS[@]}"
-# Currently broken: https://github.com/raspberrypi/pico-examples/pull/429
-# Can un-comment when this lands in SDK and examples 1.6.0.
-# cmake --build .
+cmake --build .
+popd
