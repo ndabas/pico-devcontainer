@@ -26,7 +26,7 @@ test-build () {
     shift 1
     mkdir -p "$BUILD_DIR"
     pushd "$BUILD_DIR"
-    cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug --fresh "$@"
+    cmake .. -DCMAKE_BUILD_TYPE=Debug --fresh "$@"
     cmake --build .
     popd
 }
@@ -37,8 +37,7 @@ test-build build -DPICO_SDK_TESTS_ENABLED=1
 cd "$PICO_EXAMPLES_PATH"
 
 test-build build-pico -DPICO_BOARD=pico
-# pico2 build disabled: https://github.com/raspberrypi/pico-examples/issues/513
-# test-build build-pico2 -DPICO_BOARD=pico2
+test-build build-pico2 -DPICO_BOARD=pico2
 test-build build-pico2-riscv -DPICO_BOARD=pico2 -DPICO_PLATFORM=rp2350-riscv
 test-build build-pico_w \
     -DPICO_BOARD=pico_w \
