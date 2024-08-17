@@ -27,7 +27,7 @@ test-build () {
     mkdir -p "$BUILD_DIR"
     pushd "$BUILD_DIR"
     cmake .. -DCMAKE_BUILD_TYPE=Debug --fresh "$@"
-    cmake --build .
+    cmake --build . -j$(nproc)
     popd
 }
 
